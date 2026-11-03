@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const { WebpackAssetsManifest } = require('webpack-assets-manifest');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin'); // TS 类型检查
 
 // 生产环境：把 style-loader 替换成 MiniCssExtractPlugin.loader
 const getStyleLoader = (pre) => {
@@ -23,7 +24,7 @@ const getStyleLoader = (pre) => {
 }
 
 module.exports = {
-    entry: './src/index.js',
+    entry: './src/index.tsx',
     output: {
         path: path.resolve(__dirname, '../dist'), // 生产必须指定输出目录
         filename: 'js/[name].[contenthash:10].js',
@@ -63,7 +64,7 @@ module.exports = {
                 type: 'asset/resource',
             },
             {
-                test: /\.jsx?$/,
+                test: /\.[jt]sx?$/, // 同时处理 js/jsx/ts/tsx
                 include: path.resolve(__dirname, '../src'),
                 loader: 'babel-loader',
                 options: {
@@ -97,6 +98,8 @@ module.exports = {
             writeToDisk: true,
             publicPath: '/',
         }),
+        // TS 类型检查（生产构建时确保类型错误会导致构建失败）
+        new ForkTsCheckerWebpackPlugin()
     ],
     mode: 'production',
     devtool: 'source-map', // 单独生成sourcemap，线上可选择关闭改成 false
@@ -115,7 +118,7 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: ['.jsx', '.js', '.json'],
+        extensions: ['.tsx', '.ts', '.jsx', '.js', '.json'],
         alias: {
             '@': path.resolve(__dirname, '../src'),
         },

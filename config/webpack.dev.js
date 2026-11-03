@@ -2,6 +2,7 @@ const path = require('path');
 const EslintWebpackPlugin = require('eslint-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'); // 新增
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin'); // TS 类型检查
 
 const getStyleLoader = (pre) => {
     return [
@@ -20,7 +21,7 @@ const getStyleLoader = (pre) => {
 }
 
 module.exports = {
-    entry: './src/index.js',
+    entry: './src/index.tsx',
     output: {
         path: undefined,
         filename: 'static/js/[name].js',
@@ -59,7 +60,7 @@ module.exports = {
                 type: 'asset/resource',
             },
             {
-                test: /\.jsx?$/,
+                test: /\.[jt]sx?$/, // 同时处理 js/jsx/ts/tsx
                 include: path.resolve(__dirname, '../src'),
                 loader: 'babel-loader',
                 options: {
@@ -83,7 +84,9 @@ module.exports = {
             template: path.resolve(__dirname, '../public/index.html')
         }),
         // ✅ 新增 Fast Refresh 插件
-        new ReactRefreshWebpackPlugin()
+        new ReactRefreshWebpackPlugin(),
+        // ✅ 用 babel 转译 TS（快、不做类型检查），类型检查交给 fork-ts-checker，独立进程不阻塞编译
+        new ForkTsCheckerWebpackPlugin()
     ],
     mode: 'development',
     devtool: 'cheap-module-source-map',
@@ -97,7 +100,7 @@ module.exports = {
         // },
     },
     resolve: {
-        extensions: ['.jsx', '.js', '.json'],
+        extensions: ['.tsx', '.ts', '.jsx', '.js', '.json'],
         alias: {
             '@': path.resolve(__dirname, '../src'),
         },
