@@ -18,7 +18,7 @@ export default function Home() {
   
   useEffect(() => {
     setTimeout(() => {
-      console.log('开始预加载 pdp 页面b');
+      console.log('开始预加载 pdp 页面');
       importPdpPage();
     }, 0);
   }, [])
