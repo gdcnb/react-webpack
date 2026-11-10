@@ -1,0 +1,42 @@
+{
+  "name": "react-vite",
+  "version": "1.0.0",
+  "description": "react + vite demo（与仓库根目录的 webpack 版本功能对齐）",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "start": "npm run dev",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "lint": "eslint src"
+  },
+  "browserslist": [
+    "last 2 version",
+    "> 1%",
+    "not dead"
+  ],
+  "dependencies": {
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-router-dom": "^7.18.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.29.7",
+    "@babel/eslint-parser": "^7.29.9",
+    "@babel/preset-react": "^7.29.7",
+    "@babel/preset-typescript": "^7.29.7",
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.2.1",
+    "eslint": "^9.39.5",
+    "eslint-config-ali": "^16.6.0",
+    "less": "^4.2.0",
+    "sass": "^1.107.0",
+    "stylus": "^0.64.0",
+    "typescript": "^5.9.3",
+    "vite": "^8.3.6",
+    "vite-plugin-eslint": "^1.8.1"
+  }
+}
